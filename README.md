@@ -99,28 +99,44 @@ crop-disease-fl/
 
 
 🏗️ Project Architecture
-
-┌─────────────────────────────────────────────────────────────┐
-│                     Federated Server                        │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐   │
-│  │ Model    │  │ Strategy │  │Metrics   │  │ Federated│   │
-│  │Aggregation│  │ (FedAvg)│  │Collector │  │ Analytics│   │
-│  └──────────┘  └──────────┘  └──────────┘  └──────────┘   │
-└──────────────────────────┬─────────────────────────────────┘
-                           │
-    ┌──────────────────────┼──────────────────────┐
-    │                      │                      │
-┌─────▼──────┐      ┌─────▼──────┐      ┌─────▼──────┐
-│   Client   │      │   Client   │      │   Client   │
-│  (Farm 1)  │      │  (Farm 2)  │      │  (Farm N)  │
-│ ┌────────┐ │      │ ┌────────┐ │      │ ┌────────┐ │
-│ │ Local  │ │      │ │ Local  │ │      │ │ Local  │ │
-│ │Training│ │      │ │Training│ │      │ │Training│ │
-│ └────────┘ │      │ └────────┘ │      │ └────────┘ │
-│   ┌─────┐  │      │   ┌─────┐  │      │   ┌─────┐  │
-│   │Data │  │      │   │Data │  │      │   │Data │  │
-│   └─────┘  │      │   └─────┘  │      │   └─────┘  │
-└────────────┘      └────────────┘      └────────────┘
+```mermaid
+flowchart TD
+    Server[Federated Server] -->|Global Model| Client1
+    Server -->|Global Model| Client2
+    Server -->|Global Model| Client3
+    
+    subgraph Client1[Client 1 - Farm A]
+        direction TB
+        CM1[Local Model] --> TD1[Private Crop Images<br/>Disease: Leaf Rust, Blight, etc.]
+        TD1 --> Train1[Local Training]
+        Train1 --> Update1[Model Updates]
+    end
+    
+    subgraph Client2[Client 2 - Farm B]
+        direction TB
+        CM2[Local Model] --> TD2[Private Crop Images<br/>Disease: Blight, Spot, etc.]
+        TD2 --> Train2[Local Training]
+        Train2 --> Update2[Model Updates]
+    end
+    
+    subgraph Client3[Client N - Farm N]
+        direction TB
+        CM3[Local Model] --> TD3[Private Crop Images<br/>Disease: Various]
+        TD3 --> Train3[Local Training]
+        Train3 --> Update3[Model Updates]
+    end
+    
+    Update1 -->|Encrypted Updates| Agg[Aggregator<br/>FedAvg / FedProx / FedAdam]
+    Update2 -->|Encrypted Updates| Agg
+    Update3 -->|Encrypted Updates| Agg
+    
+    Agg -->|New Global Model| Server
+    
+    style Server fill:#e3f2fd
+    style Client1 fill:#f3e5f5
+    style Client2 fill:#f3e5f5
+    style Client3 fill:#f3e5f5
+    style Agg fill:#e8f5e8
 
 ## Dataset
 This project uses the **PlantVillage dataset**.  
