@@ -99,44 +99,51 @@ crop-disease-fl/
 
 
 🏗️ Project Architecture
+
 ```mermaid
-flowchart TD
-    Server[Federated Server] -->|Global Model| Client1
-    Server -->|Global Model| Client2
-    Server -->|Global Model| Client3
-    
-    subgraph Client1[Client 1 - Farm A]
-        direction TB
-        CM1[Local Model] --> TD1[Private Crop Images<br/>Disease: Leaf Rust, Blight, etc.]
-        TD1 --> Train1[Local Training]
-        Train1 --> Update1[Model Updates]
+graph TB
+    subgraph "Federated Server"
+        Server[Server Manager]
+        GlobalModel[Global Model]
+        Aggregator[Aggregator<br/>FedAvg/FedProx]
+        Database[(Model Database)]
+        
+        Server --> GlobalModel
+        GlobalModel --> Aggregator
+        Aggregator --> Database
     end
     
-    subgraph Client2[Client 2 - Farm B]
-        direction TB
-        CM2[Local Model] --> TD2[Private Crop Images<br/>Disease: Blight, Spot, etc.]
-        TD2 --> Train2[Local Training]
-        Train2 --> Update2[Model Updates]
+    subgraph "Client 1 - Farm A"
+        Client1[Local Model]
+        Data1[(Private Data<br/>Wheat/Rice Images)]
+        Client1 --> Data1
     end
     
-    subgraph Client3[Client N - Farm N]
-        direction TB
-        CM3[Local Model] --> TD3[Private Crop Images<br/>Disease: Various]
-        TD3 --> Train3[Local Training]
-        Train3 --> Update3[Model Updates]
+    subgraph "Client 2 - Farm B"
+        Client2[Local Model]
+        Data2[(Private Data<br/>Corn/Tomato Images)]
+        Client2 --> Data2
     end
     
-    Update1 -->|Encrypted Updates| Agg[Aggregator<br/>FedAvg / FedProx / FedAdam]
-    Update2 -->|Encrypted Updates| Agg
-    Update3 -->|Encrypted Updates| Agg
+    subgraph "Client N - Research Lab"
+        ClientN[Local Model]
+        DataN[(Private Data<br/>Expert Annotations)]
+        ClientN --> DataN
+    end
     
-    Agg -->|New Global Model| Server
+    GlobalModel -.->|Model Download| Client1
+    GlobalModel -.->|Model Download| Client2
+    GlobalModel -.->|Model Download| ClientN
+    
+    Client1 -.->|Encrypted Updates| Aggregator
+    Client2 -.->|Encrypted Updates| Aggregator
+    ClientN -.->|Encrypted Updates| Aggregator
     
     style Server fill:#e3f2fd
     style Client1 fill:#f3e5f5
     style Client2 fill:#f3e5f5
-    style Client3 fill:#f3e5f5
-    style Agg fill:#e8f5e8
+    style ClientN fill:#f3e5f5
+    style Aggregator fill:#e8f5e8
 
 ## Dataset
 This project uses the **PlantVillage dataset**.  
