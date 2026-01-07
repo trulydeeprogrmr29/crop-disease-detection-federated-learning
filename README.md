@@ -68,17 +68,25 @@ Federated Learning helps by:
 
 crop-disease-fl/
 ├── client/           # Client-side code
+
 │   ├── main.py      # Client entry point
+
 │   ├── trainer.py   # Local training logic
+			
 │   └── data_loader.py
 
 ├── server/          # Server-side code
+
 │   ├── main.py      # Server entry point
+
 │   ├── aggregator.py # Model aggregation
+
 │   └── utils.py
 
 ├── shared/          # Shared components
+
 │   ├── models.py    # Neural network architectures
+
 │   └── config.py    # Shared configuration
 
 ├── datasets/        # Dataset utilities
