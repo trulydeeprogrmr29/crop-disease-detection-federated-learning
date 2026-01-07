@@ -99,44 +99,55 @@ crop-disease-fl/
 
 
 🏗️ Project Architecture
-```mermaid
-flowchart TD
-    subgraph "Federated Server"
-        direction TB
-        Server[Server Manager]
-        GlobalModel[Global Model]
-        Aggregator[Aggregator]
-        
-        Server --> GlobalModel
-        GlobalModel --> Aggregator
+
+
+
+
+	sequenceDiagram
+    participant Server
+    participant Client1
+    participant Client2
+    participant Client3
+    
+    Note over Server,Client3: Round Start
+    Server->>Client1: Send Global Model
+    Server->>Client2: Send Global Model
+    Server->>Client3: Send Global Model
+    
+    par Training
+        Client1->>Client1: Local Training
+        Client2->>Client2: Local Training
+        Client3->>Client3: Local Training
     end
     
-    subgraph "Client 1"
-        C1[Client Model]
-        D1[Private Data]
-        C1 --> D1
-    end
+    Client1->>Server: Send Updates
+    Client2->>Server: Send Updates
+    Client3->>Server: Send Updates
     
-    subgraph "Client 2"
-        C2[Client Model]
-        D2[Private Data]
-        C2 --> D2
-    end
+    Server->>Server: Aggregate Updates
+    Note over Server,Client3: Round Complete
+
+
+	
+
+
+📊 Data Flow
+
+    graph LR
+    A[Raw Images] --> B[Stay Local]
+    B --> C[Local Training]
+    C --> D[Model Updates]
+    D --> E[Encrypted Transfer]
+    E --> F[Server]
     
-    subgraph "Client N"
-        CN[Client Model]
-        DN[Private Data]
-        CN --> DN
-    end
-    
-    GlobalModel --> C1
-    GlobalModel --> C2
-    GlobalModel --> CN
-    
-    C1 --> Aggregator
-    C2 --> Aggregator
-    CN --> Aggregator
- 
+    style A fill:#f9f
+    style B fill:#ccf
+    style F fill:#9f9
+
+
+
+
+	
 
 ## Dataset
 This project uses the **PlantVillage dataset**.  
