@@ -101,53 +101,14 @@ crop-disease-fl/
 🏗️ Project Architecture
 
 
-
-
-	sequenceDiagram
-    participant Server
-    participant Client1
-    participant Client2
-    participant Client3
-    
-    Note over Server,Client3: Round Start
-    Server->>Client1: Send Global Model
-    Server->>Client2: Send Global Model
-    Server->>Client3: Send Global Model
-    
-    par Training
-        Client1->>Client1: Local Training
-        Client2->>Client2: Local Training
-        Client3->>Client3: Local Training
-    end
-    
-    Client1->>Server: Send Updates
-    Client2->>Server: Send Updates
-    Client3->>Server: Send Updates
-    
-    Server->>Server: Aggregate Updates
-    Note over Server,Client3: Round Complete
-
-
-	
+<img width="2884" height="3124" alt="Project Architecture" src="https://github.com/user-attachments/assets/4d6d2bda-3617-49a5-be8d-cf4a62865818" />
 
 
 📊 Data Flow
 
-    graph LR
-    A[Raw Images] --> B[Stay Local]
-    B --> C[Local Training]
-    C --> D[Model Updates]
-    D --> E[Encrypted Transfer]
-    E --> F[Server]
-    
-    style A fill:#f9f
-    style B fill:#ccf
-    style F fill:#9f9
+  
+<img width="3522" height="230" alt="DATA FLOW" src="https://github.com/user-attachments/assets/45d2e051-3060-4dae-9ad4-9712d9acc044" />
 
-
-
-
-	
 
 ## Dataset
 This project uses the **PlantVillage dataset**.  
