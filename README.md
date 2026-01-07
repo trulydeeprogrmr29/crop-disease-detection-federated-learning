@@ -66,18 +66,53 @@ Federated Learning helps by:
 
 ## Project Structure
 
-crop-disease-detection-federated-learning/
-│
-├── data/ # Dataset split for different clients
-├── models/ # CNN model definition
-├── utils/ # Helper functions
-├── client.py # Federated learning client
-├── server.py # Federated learning server
-├── requirements.txt
-├── README.md
-├── pyproject.toml
-└── .gitignore
+crop-disease-fl/
+├── client/           # Client-side code
+│   ├── main.py      # Client entry point
+│   ├── trainer.py   # Local training logic
+│   └── data_loader.py
 
+├── server/          # Server-side code
+│   ├── main.py      # Server entry point
+│   ├── aggregator.py # Model aggregation
+│   └── utils.py
+
+├── shared/          # Shared components
+│   ├── models.py    # Neural network architectures
+│   └── config.py    # Shared configuration
+
+├── datasets/        # Dataset utilities
+
+├── configs/         # Configuration files
+
+├── tests/           # Test suite
+
+└── scripts/         # Utility scripts
+
+
+🏗️ Project Architecture
+
+┌─────────────────────────────────────────────────────────────┐
+│                     Federated Server                        │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐   │
+│  │ Model    │  │ Strategy │  │Metrics   │  │ Federated│   │
+│  │Aggregation│  │ (FedAvg)│  │Collector │  │ Analytics│   │
+│  └──────────┘  └──────────┘  └──────────┘  └──────────┘   │
+└──────────────────────────┬─────────────────────────────────┘
+                           │
+    ┌──────────────────────┼──────────────────────┐
+    │                      │                      │
+┌─────▼──────┐      ┌─────▼──────┐      ┌─────▼──────┐
+│   Client   │      │   Client   │      │   Client   │
+│  (Farm 1)  │      │  (Farm 2)  │      │  (Farm N)  │
+│ ┌────────┐ │      │ ┌────────┐ │      │ ┌────────┐ │
+│ │ Local  │ │      │ │ Local  │ │      │ │ Local  │ │
+│ │Training│ │      │ │Training│ │      │ │Training│ │
+│ └────────┘ │      │ └────────┘ │      │ └────────┘ │
+│   ┌─────┐  │      │   ┌─────┐  │      │   ┌─────┐  │
+│   │Data │  │      │   │Data │  │      │   │Data │  │
+│   └─────┘  │      │   └─────┘  │      │   └─────┘  │
+└────────────┘      └────────────┘      └────────────┘
 
 ## Dataset
 This project uses the **PlantVillage dataset**.  
@@ -151,6 +186,11 @@ Federated Learning
 
 Contributions are welcome!
 Feel free to open issues, suggest improvements, or submit pull requests.
+Fork the repository
+Create a feature branch (git checkout -b feature/amazing-feature)
+Commit changes (git commit -m 'Add amazing feature')
+Push to branch (git push origin feature/amazing-feature)
+Open a Pull Request
 
 
 📜 License

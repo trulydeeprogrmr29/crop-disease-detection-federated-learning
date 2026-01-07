@@ -5,3 +5,15 @@ torchvision
 flwr
 matplotlib
 scikit-learn
+torch torchvision torchaudio
+ flwr flower-ai
+ numpy pandas
+ opencv-python pillow
+ scikit-learn matplotlib
+ tensorboard
+ pyyaml
+  python-dotenv
+--dev pytest pytest-cov
+--dev black isort flake8
+--dev mypy
+--dev jupyter notebook
