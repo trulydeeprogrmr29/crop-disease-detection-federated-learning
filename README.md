@@ -99,51 +99,44 @@ crop-disease-fl/
 
 
 🏗️ Project Architecture
-
 ```mermaid
-graph TB
+flowchart TD
     subgraph "Federated Server"
+        direction TB
         Server[Server Manager]
         GlobalModel[Global Model]
-        Aggregator[Aggregator<br/>FedAvg/FedProx]
-        Database[(Model Database)]
+        Aggregator[Aggregator]
         
         Server --> GlobalModel
         GlobalModel --> Aggregator
-        Aggregator --> Database
     end
     
-    subgraph "Client 1 - Farm A"
-        Client1[Local Model]
-        Data1[(Private Data<br/>Wheat/Rice Images)]
-        Client1 --> Data1
+    subgraph "Client 1"
+        C1[Client Model]
+        D1[Private Data]
+        C1 --> D1
     end
     
-    subgraph "Client 2 - Farm B"
-        Client2[Local Model]
-        Data2[(Private Data<br/>Corn/Tomato Images)]
-        Client2 --> Data2
+    subgraph "Client 2"
+        C2[Client Model]
+        D2[Private Data]
+        C2 --> D2
     end
     
-    subgraph "Client N - Research Lab"
-        ClientN[Local Model]
-        DataN[(Private Data<br/>Expert Annotations)]
-        ClientN --> DataN
+    subgraph "Client N"
+        CN[Client Model]
+        DN[Private Data]
+        CN --> DN
     end
     
-    GlobalModel -.->|Model Download| Client1
-    GlobalModel -.->|Model Download| Client2
-    GlobalModel -.->|Model Download| ClientN
+    GlobalModel --> C1
+    GlobalModel --> C2
+    GlobalModel --> CN
     
-    Client1 -.->|Encrypted Updates| Aggregator
-    Client2 -.->|Encrypted Updates| Aggregator
-    ClientN -.->|Encrypted Updates| Aggregator
-    
-    style Server fill:#e3f2fd
-    style Client1 fill:#f3e5f5
-    style Client2 fill:#f3e5f5
-    style ClientN fill:#f3e5f5
-    style Aggregator fill:#e8f5e8
+    C1 --> Aggregator
+    C2 --> Aggregator
+    CN --> Aggregator
+ 
 
 ## Dataset
 This project uses the **PlantVillage dataset**.  
