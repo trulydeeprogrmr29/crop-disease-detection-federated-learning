@@ -47,11 +47,14 @@ venv.bak/
 *.swo
 *~
 
+
 # Dataset
-data/
+dataset/
+/data/
 *.zip
 *.tar.gz
 *.h5
+
 
 # Logs
 logs/
