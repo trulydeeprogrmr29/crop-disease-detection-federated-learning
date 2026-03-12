@@ -4,6 +4,8 @@ torch
 torchvision
 flwr
 matplotlib
+tensorflow
+keras
 scikit-learn
 torch torchvision torchaudio
  flwr flower-ai
