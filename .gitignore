@@ -47,14 +47,13 @@ venv.bak/
 *.swo
 *~
 
-
 # Dataset
 dataset/
-/data/
+data/
 *.zip
 *.tar.gz
 *.h5
-
+*.npz
 
 # Logs
 logs/
@@ -76,3 +75,12 @@ Thumbs.db
 
 # UV
 uv.lock
+
+# Client data
+data/clients/
+src/client/client_0/
+src/client/client_1/
+src/client/client_2/
+src/client/client_3/
+src/client/client_4/
+notebooks/Preprocessing/Preprocessed_datasets/
